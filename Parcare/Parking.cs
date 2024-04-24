@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Parcare
+namespace ParkingLot
 {
-    internal class Parking
+    public class Parking
     {
         private int availableSlots;
         private DateTime entryTime;
