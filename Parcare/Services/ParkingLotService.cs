@@ -9,24 +9,24 @@ namespace Parking.Services
 {
     public class ParkingLotService
     {
-        private List<ParkingLotModel> _parkedCars;
+        private List<ParkingLotModel> _parkedCarsList;
         private int _maxSlots;
 
         public ParkingLotService(int totalSlots)
         {
-            _parkedCars = new List<ParkingLotModel>();
+            _parkedCarsList = new List<ParkingLotModel>();
             _maxSlots = totalSlots;
         }
 
         public bool IsParkingPossible()
         {
-            return (_maxSlots - _parkedCars.Count) > 0;
+            return (_maxSlots - _parkedCarsList.Count) > 0;
         }
         public void ParkCar(string carNumber)
         {
             if (IsParkingPossible())
             {
-                _parkedCars.Add(new ParkingLotModel
+                _parkedCarsList.Add(new ParkingLotModel
                 {
                     CarNumber = carNumber,
                     EntryTime = DateTime.Now,
@@ -41,7 +41,7 @@ namespace Parking.Services
         }
         public bool IsCarParked(string carNumber)
         {
-            ParkingLotModel parkedCar = _parkedCars.Find(car => car.CarNumber == carNumber);
+            ParkingLotModel parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
             return (parkedCar != null);
         }
 
