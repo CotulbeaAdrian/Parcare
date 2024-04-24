@@ -34,14 +34,17 @@ public class ParkingLotService
             Console.WriteLine($"There are no empty slots at the time. Please come back later!");
             return;
         }
+
         _parkedCarsList.Add(new ParkingLotModel
         {
             CarNumber = carNumber,
             EntryTime = time,
             PaymentReceived = false
         });
+
         Console.WriteLine("Car is now parked.");
     }
+
     public bool IsCarParked(string carNumber)
     {
         ParkingLotModel parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
@@ -51,6 +54,7 @@ public class ParkingLotService
     public bool IsPaymentReceived(string carNumber)
     {
         ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
+
         if (parkedCar != null)
             return parkedCar.PaymentReceived;
         else
@@ -63,6 +67,7 @@ public class ParkingLotService
     public void PayForParking(string carNumber)
     {
         ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
+
         if(parkedCar == null)
         {
             Console.WriteLine("No car found with that number.");
@@ -75,16 +80,19 @@ public class ParkingLotService
         {
             Console.WriteLine("Parking for an hour or less is free. Have a nice day!");
             parkedCar.PaymentReceived = true;
-        return;
+            return;
         }
+
         // -1 for the first hour which is free
         var paymentAmount = (duration.TotalHours) * _price;
         var accountWithCarNumber = _bank.accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
+
         if (accountWithCarNumber == null)
         {
             Console.WriteLine($"No account found with car number {carNumber}");
             return;
         }
+
         if(_bank.CanPay(paymentAmount, carNumber))
         {
             accountWithCarNumber.Balance = (float)(accountWithCarNumber.Balance - paymentAmount);

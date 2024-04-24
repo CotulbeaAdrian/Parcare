@@ -19,6 +19,7 @@ public class BankAccountService
     public void Remove(string carNumber)
     {
         var accountsWithCarNumber = accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
+
         if (accountsWithCarNumber != null)
         {
             accounts.Remove(accountsWithCarNumber);
@@ -28,10 +29,12 @@ public class BankAccountService
     public bool CanPay(double amount, string carNumber)
     {
         var accountsWithCarNumber = accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
+
         if (accountsWithCarNumber != null)
         {
             return (accountsWithCarNumber.Balance - amount) > 0;
         }
+
         return false;
     }
 }
