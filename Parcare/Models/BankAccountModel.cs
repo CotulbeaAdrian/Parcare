@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Parking.Models
+namespace Parking.Models;
+
+public class BankAccountModel
 {
-    public class BankAccountModel
-    {
-        public required string Name { get; set; }
-        public required List<string> CarNumber { get; set; }
-        public required float Balance { get; set; }
-    }
+    public required string Name { get; set; }
+    public required List<string> CarNumber { get; set; }
+    public required float Balance { get; set; }
 }
 
