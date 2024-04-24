@@ -10,7 +10,6 @@ namespace Parking.Models
     {
         public required string CarNumber { get; set; }
         public required DateTime EntryTime { get; set; }
-        public TimeSpan Duration { get; set; }
         public required bool PaymentReceived { get; set; }
     }
 }
