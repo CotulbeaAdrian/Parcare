@@ -26,7 +26,7 @@ public class BankAccountService
         }
     }
 
-    public bool CanPay(double amount, string carNumber)
+    public bool IsPaymentPossible(double amount, string carNumber)
     {
         var accountsWithCarNumber = accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
 
