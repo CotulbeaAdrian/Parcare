@@ -39,7 +39,8 @@ public class ParkingLotService
         {
             CarNumber = carNumber,
             EntryTime = time,
-            PaymentReceived = false
+            PaymentReceived = false,
+            TriedPayment = false
         });
 
         Console.WriteLine("Car is now parked.");
@@ -47,7 +48,7 @@ public class ParkingLotService
 
     public bool IsCarParked(string carNumber)
     {
-        ParkingLotModel parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
+        ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
         return parkedCar != null;
     }
 
@@ -98,6 +99,38 @@ public class ParkingLotService
             accountWithCarNumber.Balance = (float)(accountWithCarNumber.Balance - paymentAmount);
             parkedCar.PaymentReceived = true;
             Console.WriteLine("Payment successful");
+            return;
         }
+        parkedCar.TriedPayment = true;
+    }
+
+    public void ExitParking(string carNumber)
+    {
+        ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
+
+        if (parkedCar == null)
+        {
+            Console.WriteLine("No car found with that number.");
+            return;
+        }
+
+        if(parkedCar.TriedPayment == false)
+        {
+            PayForParking(carNumber);
+        }
+
+        if(parkedCar.PaymentReceived == false)
+        {
+            Console.WriteLine("Payment is required first before exiting the parking lot.");
+            return;
+        }
+
+        Console.WriteLine("Have a nice day!");
+        _parkedCarsList.Remove(parkedCar);
+    }
+
+    public int OccupiedSlots()
+    {
+        return _parkedCarsList.Count;
     }
 }

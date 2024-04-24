@@ -114,4 +114,54 @@ public class UnitTestParking
         //Asserts
         Assert.False(result);
     }
+
+    [Fact]
+    public void ExitParking_WhenPaymentSuccessful_ReturnsTrue()
+    {
+        //Arrange
+        var accounts = new BankAccountService();
+        var sut = new ParkingLotService(1, 2, accounts);
+        accounts.Add("Tom", new List<string> { "123" }, 1000);
+        sut.ParkCar("123", DateTime.Now.AddHours(-10));
+
+        //Act
+        sut.PayForParking("123");
+        sut.ExitParking("123");
+
+        //Asserts
+        Assert.True(sut.OccupiedSlots() == 0) ;
+    }
+
+    [Fact]
+    public void ExitParking_WhenPaymentSuccessfulAtBarrier_ReturnsTrue()
+    {
+        //Arrange
+        var accounts = new BankAccountService();
+        var sut = new ParkingLotService(1, 2, accounts);
+        accounts.Add("Tom", new List<string> { "123" }, 1000);
+        sut.ParkCar("123", DateTime.Now.AddHours(-10));
+
+        //Act
+        sut.ExitParking("123");
+
+        //Asserts
+        Assert.True(sut.OccupiedSlots() == 0);
+    }
+
+    [Fact]
+    public void ExitParking_WhenPaymentFailed_ReturnsFalse()
+    {
+        //Arrange
+        var accounts = new BankAccountService();
+        var sut = new ParkingLotService(1, 2, accounts);
+        accounts.Add("Tom", new List<string> { "123" }, 0);
+        sut.ParkCar("123", DateTime.Now.AddDays(-1).AddHours(-10).AddMinutes(-30));
+
+        //Act
+        sut.PayForParking("123");
+        sut.ExitParking("123");
+
+        //Asserts
+        Assert.False(sut.OccupiedSlots() == 0);
+    }
 }
