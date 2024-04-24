@@ -11,24 +11,22 @@ namespace Parking.Services
     {
         private List<ParkingLotModel> _parkedCars;
         private int _maxSlots;
-        private int _availableSlots;
 
         public ParkingLotService(int totalSlots)
         {
-            this._parkedCars = new List<ParkingLotModel>();
-            this._maxSlots = totalSlots;
-            this._availableSlots = _maxSlots - _parkedCars.Count;
+            _parkedCars = new List<ParkingLotModel>();
+            _maxSlots = totalSlots;
         }
 
         public bool IsParkingPossible()
         {
-            return _availableSlots > 0;
+            return (_maxSlots - _parkedCars.Count) > 0;
         }
         public void ParkCar(string carNumber)
         {
             if (IsParkingPossible())
             {
-                this._parkedCars.Add(new ParkingLotModel
+                _parkedCars.Add(new ParkingLotModel
                 {
                     CarNumber = carNumber,
                     EntryTime = DateTime.Now,
