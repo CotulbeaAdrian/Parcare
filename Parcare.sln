@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parcare", "Parcare\Parcare.csproj", "{9F8C01FF-9832-4572-999A-389DB6E6BB61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testUnitParcare", "testUnitParcare\testUnitParcare.csproj", "{2C94D859-CC1D-47CA-9EC8-AC929778C5D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F8C01FF-9832-4572-999A-389DB6E6BB61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F8C01FF-9832-4572-999A-389DB6E6BB61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F8C01FF-9832-4572-999A-389DB6E6BB61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F8C01FF-9832-4572-999A-389DB6E6BB61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C94D859-CC1D-47CA-9EC8-AC929778C5D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C94D859-CC1D-47CA-9EC8-AC929778C5D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C94D859-CC1D-47CA-9EC8-AC929778C5D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C94D859-CC1D-47CA-9EC8-AC929778C5D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B08D039-711A-4635-AF15-07EFB55596EA}
+	EndGlobalSection
+EndGlobal
