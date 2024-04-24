@@ -9,67 +9,109 @@ public class UnitTestParking
     [Fact]
     public void isParkingPossible_WhenSpaceAvailable_ReturnsTrue()
     {
+        //Arrange
         var accounts = new BankAccountService();
-        var parkingLot = new ParkingLotService(1, 2, accounts);
-        Assert.True(parkingLot.IsParkingPossible());
+        var sut = new ParkingLotService(1, 2, accounts);
+
+        //Act
+        var result = sut.IsParkingPossible();
+
+        //Asserts
+        Assert.True(result);
     }
 
     [Fact]
     public void isParkingPossible_WhenSpaceUnavailable_ReturnsFalse()
     {
+        //Arrange
         var accounts = new BankAccountService();
-        var parkingLot = new ParkingLotService(0, 2, accounts);
-        Assert.False(parkingLot.IsParkingPossible());
+        var sut = new ParkingLotService(0, 2, accounts);
+
+        //Act
+        var result = sut.IsParkingPossible();
+
+        //Asserts
+        Assert.False(result);
     }
 
     [Fact]
     public void isCarParked_WhenIsParked_ReturnsTrue()
     {
+        //Arrange
         var accounts = new BankAccountService();
-        var parkingLot = new ParkingLotService(1, 2, accounts);
-        parkingLot.ParkCar("testNumber", DateTime.Now);
-        Assert.True(parkingLot.IsCarParked("testNumber"));
+        var sut = new ParkingLotService(1, 2, accounts);
+
+        //Act
+        sut.ParkCar("testNumber", DateTime.Now);
+        var result = sut.IsCarParked("testNumber");
+
+        //Asserts
+        Assert.True(result);
     }
 
     [Fact]
     public void isCarParked_WhenIsNotParked_ReturnsFalse()
     {
+        //Arrange
         var accounts = new BankAccountService();
-        var parkingLot = new ParkingLotService(1, 2, accounts);
-        parkingLot.ParkCar("testNumber", DateTime.Now);
-        Assert.False(parkingLot.IsCarParked("testOtherNumber"));
+        var sut = new ParkingLotService(1, 2, accounts);
+
+        //Act
+        sut.ParkCar("testNumber", DateTime.Now);
+        var result = sut.IsCarParked("testOtherNumber");
+
+        //Asserts
+        Assert.False(result);
     }
 
     [Fact]
     public void IsPaymentReceived_WhenUnder1h_ReturnsTrue()
     {
+        //Arrange
         var accounts = new BankAccountService();
-        var parkingLot = new ParkingLotService(1, 2, accounts);
+        var sut = new ParkingLotService(1, 2, accounts);
         accounts.Add("Tom", new List<string> { "123" }, 10) ;
-        parkingLot.ParkCar("123", DateTime.Now);
-        parkingLot.PayForParking("123");
-        Assert.True(parkingLot.IsPaymentReceived("123"));
+        sut.ParkCar("123", DateTime.Now);
+
+        //Act
+        sut.PayForParking("123");
+        var result = sut.IsPaymentReceived("123");
+
+        //Asserts
+        Assert.True(result);
     }
 
     [Fact]
     public void IsPaymentReceived_WhenPaymentSuccessful_ReturnsTrue()
     {
+        //Arrange
         var accounts = new BankAccountService();
-        var parkingLot = new ParkingLotService(1, 2, accounts);
+        var sut = new ParkingLotService(1, 2, accounts);
         accounts.Add("Tom", new List<string> { "123" }, 1000);
-        parkingLot.ParkCar("123", DateTime.Now.AddHours(-10));
-        parkingLot.PayForParking("123");
-        Assert.True(parkingLot.IsPaymentReceived("123"));
+        sut.ParkCar("123", DateTime.Now.AddHours(-10));
+
+        //Act
+        sut.PayForParking("123");
+        var result = sut.IsPaymentReceived("123");
+
+        //Asserts
+        Assert.True(result);
     }
 
     [Fact]
     public void IsPaymentReceived_WhenBalanceTooLow_ReturnsFalse()
     {
+        //Arrange
         var accounts = new BankAccountService();
-        var parkingLot = new ParkingLotService(1, 2, accounts);
+        var sut = new ParkingLotService(1, 2, accounts);
         accounts.Add("Tom", new List<string> { "123" }, 0);
-        parkingLot.ParkCar("123", DateTime.Now.AddDays(-1).AddHours(-10).AddMinutes(-30));
-        parkingLot.PayForParking("123");
-        Assert.False(parkingLot.IsPaymentReceived("123"));
+        sut.ParkCar("123", DateTime.Now.AddDays(-1).AddHours(-10).AddMinutes(-30));
+
+        //Act
+        sut.PayForParking("123");
+        var result = sut.IsPaymentReceived("123");
+
+        //Asserts
+        Assert.False(result);
     }
 }
