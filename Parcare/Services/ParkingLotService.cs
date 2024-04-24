@@ -94,7 +94,7 @@ public class ParkingLotService
             return;
         }
 
-        if(_bank.CanPay(paymentAmount, carNumber))
+        if(_bank.IsPaymentPossible(paymentAmount, carNumber))
         {
             accountWithCarNumber.Balance = (float)(accountWithCarNumber.Balance - paymentAmount);
             parkedCar.PaymentReceived = true;
