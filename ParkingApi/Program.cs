@@ -1,3 +1,5 @@
+using Parking.Application.Services.Interfaces;
+using Parking.Application.Services;
 
 namespace ParkingApi
 {
@@ -8,8 +10,8 @@ namespace ParkingApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IParkingLotService, ParkingLotService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

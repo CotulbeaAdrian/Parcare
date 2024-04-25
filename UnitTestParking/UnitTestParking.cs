@@ -1,8 +1,8 @@
 using Xunit;
-using Parking.Models;
-using Parking.Services;
+using Parking.Application.Models;   
+using Parking.Application.Services;
 
-namespace UnitTestParking;
+namespace Parking.UnitTest;
 
 public class UnitTestParking
 {

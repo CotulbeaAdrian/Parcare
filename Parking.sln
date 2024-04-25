@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkingTests", "UnitTestParking\ParkingTests.csproj", "{B7ED4B27-46EF-4464-AADA-29827D70DDF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTestParking\UnitTest.csproj", "{B7ED4B27-46EF-4464-AADA-29827D70DDF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkingLibrary", "ParkingLibrary\ParkingLibrary.csproj", "{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "ParkingLibrary\Application.csproj", "{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingApi", "ParkingApi\ParkingApi.csproj", "{D54F3997-EDE1-42EF-88BA-1E21A594DF29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "ParkingApi\Api.csproj", "{D54F3997-EDE1-42EF-88BA-1E21A594DF29}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9C8BDFFC-37E2-47C2-BEDC-C84D0AD796CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7D031E5C-0E4E-4652-BF14-2C66315BB892}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +34,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7ED4B27-46EF-4464-AADA-29827D70DDF6} = {7D031E5C-0E4E-4652-BF14-2C66315BB892}
+		{E2E00616-ED2E-42AA-A757-0CA45FEF8E08} = {9C8BDFFC-37E2-47C2-BEDC-C84D0AD796CE}
+		{D54F3997-EDE1-42EF-88BA-1E21A594DF29} = {9C8BDFFC-37E2-47C2-BEDC-C84D0AD796CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B08D039-711A-4635-AF15-07EFB55596EA}

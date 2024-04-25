@@ -1,13 +1,14 @@
-﻿using Parking.Models;
+﻿using Parking.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Parking.Application.Services.Interfaces;
 
-namespace Parking.Services;
+namespace Parking.Application.Services;
 
-public class ParkingLotService
+public class ParkingLotService : IParkingLotService
 {
     private List<ParkingLotModel> _parkedCarsList;
     private int _maxSlots;
