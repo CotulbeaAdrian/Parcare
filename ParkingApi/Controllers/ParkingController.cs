@@ -41,7 +41,7 @@ namespace Parking.Controllers
         public IActionResult Leave(string carNumber)
         {
             _parkingLotService.ExitParking(carNumber);
-            bool success;
+            bool success = _parkingLotService.CarLeftParking(carNumber);
             if (success)
                 return Ok("Car left parking lot successfully.");
             else
