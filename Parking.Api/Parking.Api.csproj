@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParkingLibrary\Application.csproj" />
+    <ProjectReference Include="..\Parking.Application\Parking.Application.csproj" />
+    <ProjectReference Include="..\ParkingLibrary\Parking.Application.csproj" />
   </ItemGroup>
 
 </Project>

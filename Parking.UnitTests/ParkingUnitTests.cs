@@ -4,7 +4,7 @@ using Parking.Application.Services;
 
 namespace Parking.UnitTest;
 
-public class UnitTestParking
+public class ParkingUnitTests
 {
     [Fact]
     public void isParkingPossible_WhenSpaceAvailable_ReturnsTrue()

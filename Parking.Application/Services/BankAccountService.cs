@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Parking.Application.Services.Interfaces;
 
 namespace Parking.Application.Services;
 
-public class BankAccountService
+public class BankAccountService : IBankAccountService
 {
     public List<BankAccountModel> accounts = new List<BankAccountModel>();
 

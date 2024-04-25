@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTestParking\UnitTest.csproj", "{B7ED4B27-46EF-4464-AADA-29827D70DDF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parking.UnitTests", "Parking.UnitTests\Parking.UnitTests.csproj", "{B7ED4B27-46EF-4464-AADA-29827D70DDF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "ParkingLibrary\Application.csproj", "{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parking.Application", "Parking.Application\Parking.Application.csproj", "{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "ParkingApi\Api.csproj", "{D54F3997-EDE1-42EF-88BA-1E21A594DF29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parking.Api", "Parking.Api\Parking.Api.csproj", "{D54F3997-EDE1-42EF-88BA-1E21A594DF29}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9C8BDFFC-37E2-47C2-BEDC-C84D0AD796CE}"
 EndProject
