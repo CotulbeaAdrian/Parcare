@@ -129,7 +129,7 @@ public class UnitTestParking
         sut.ExitParking("123");
 
         //Asserts
-        Assert.True(sut.OccupiedSlots() == 0) ;
+        Assert.True(sut.CarLeftParking("123"));
     }
 
     [Fact]
@@ -145,7 +145,7 @@ public class UnitTestParking
         sut.ExitParking("123");
 
         //Asserts
-        Assert.True(sut.OccupiedSlots() == 0);
+        Assert.True(sut.CarLeftParking("123"));
     }
 
     [Fact]
@@ -162,6 +162,6 @@ public class UnitTestParking
         sut.ExitParking("123");
 
         //Asserts
-        Assert.False(sut.OccupiedSlots() == 0);
+        Assert.False(sut.CarLeftParking("123"));
     }
 }
