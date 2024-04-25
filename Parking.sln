@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parking.UnitTests", "Parking.UnitTests\Parking.UnitTests.csproj", "{B7ED4B27-46EF-4464-AADA-29827D70DDF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parking.Application", "Parking.Application\Parking.Application.csproj", "{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parking.Api", "Parking.Api\Parking.Api.csproj", "{D54F3997-EDE1-42EF-88BA-1E21A594DF29}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9C8BDFFC-37E2-47C2-BEDC-C84D0AD796CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7D031E5C-0E4E-4652-BF14-2C66315BB892}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7ED4B27-46EF-4464-AADA-29827D70DDF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7ED4B27-46EF-4464-AADA-29827D70DDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7ED4B27-46EF-4464-AADA-29827D70DDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7ED4B27-46EF-4464-AADA-29827D70DDF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2E00616-ED2E-42AA-A757-0CA45FEF8E08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D54F3997-EDE1-42EF-88BA-1E21A594DF29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D54F3997-EDE1-42EF-88BA-1E21A594DF29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D54F3997-EDE1-42EF-88BA-1E21A594DF29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D54F3997-EDE1-42EF-88BA-1E21A594DF29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7ED4B27-46EF-4464-AADA-29827D70DDF6} = {7D031E5C-0E4E-4652-BF14-2C66315BB892}
+		{E2E00616-ED2E-42AA-A757-0CA45FEF8E08} = {9C8BDFFC-37E2-47C2-BEDC-C84D0AD796CE}
+		{D54F3997-EDE1-42EF-88BA-1E21A594DF29} = {9C8BDFFC-37E2-47C2-BEDC-C84D0AD796CE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B08D039-711A-4635-AF15-07EFB55596EA}
+	EndGlobalSection
+EndGlobal

@@ -1,13 +1,14 @@
-﻿using Parking.Models;
+﻿using Parking.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Parking.Application.Services.Interfaces;
 
-namespace Parking.Services;
+namespace Parking.Application.Services;
 
-public class ParkingLotService
+public class ParkingLotService : IParkingLotService
 {
     private List<ParkingLotModel> _parkedCarsList;
     private int _maxSlots;
@@ -40,7 +41,8 @@ public class ParkingLotService
             CarNumber = carNumber,
             EntryTime = time,
             PaymentReceived = false,
-            TriedPayment = false
+            TriedPayment = false,
+            LeftParking = false
         });
 
         Console.WriteLine("Car is now parked.");
@@ -126,11 +128,20 @@ public class ParkingLotService
         }
 
         Console.WriteLine("Have a nice day!");
-        _parkedCarsList.Remove(parkedCar);
+        parkedCar.LeftParking = true;
+        _maxSlots++;
     }
 
-    public int OccupiedSlots()
+    public bool CarLeftParking(string carNumber)
     {
-        return _parkedCarsList.Count;
+        ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
+
+        if (parkedCar != null)
+            return parkedCar.LeftParking;
+        else
+        {
+            Console.WriteLine("There is no car with that number here.");
+            return false;
+        }
     }
 }
