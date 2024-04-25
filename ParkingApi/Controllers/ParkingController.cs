@@ -22,8 +22,7 @@ public class ParkingLotController : ControllerBase
         bool success = _parkingLotService.IsCarParked(carNumber);
         if (success)
             return Ok("Car parked successfully.");
-        else
-            return BadRequest("Parking lot is full.");
+        return BadRequest("Parking lot is full.");
     }
 
     [HttpPost("{carNumber}/payment")]
@@ -33,8 +32,7 @@ public class ParkingLotController : ControllerBase
         bool success = _parkingLotService.IsPaymentReceived(carNumber);
         if (success)
             return Ok("Payment successful.");
-        else
-            return BadRequest("Payment failed. Car not parked or insufficient balance.");
+        return BadRequest("Payment failed. Car not parked or insufficient balance.");
     }
 
     [HttpPost("{carNumber}/out")]
@@ -44,7 +42,6 @@ public class ParkingLotController : ControllerBase
         bool success = _parkingLotService.CarLeftParking(carNumber);
         if (success)
             return Ok("Car left parking lot successfully.");
-        else
-            return BadRequest("Car not found in parking lot.");
+        return BadRequest("Car not found in parking lot.");
     }
 }
