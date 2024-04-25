@@ -10,26 +10,26 @@ namespace Parking.Application.Services;
 
 public class BankAccountService : IBankAccountService
 {
-    public List<BankAccountModel> accounts = new List<BankAccountModel>();
+    public List<BankAccountModel> Accounts { get; } = new List<BankAccountModel>();
 
     public void Add(string name, List<string> carNumber, float balance)
     {
-        accounts.Add(new BankAccountModel { Name = name, CarNumber = carNumber, Balance = balance });
+        Accounts.Add(new BankAccountModel { Name = name, CarNumber = carNumber, Balance = balance });
     }
 
     public void Remove(string carNumber)
     {
-        var accountsWithCarNumber = accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
+        var accountsWithCarNumber = Accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
 
         if (accountsWithCarNumber != null)
         {
-            accounts.Remove(accountsWithCarNumber);
+            Accounts.Remove(accountsWithCarNumber);
         }
     }
 
     public bool IsPaymentPossible(double amount, string carNumber)
     {
-        var accountsWithCarNumber = accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
+        var accountsWithCarNumber = Accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
 
         if (accountsWithCarNumber != null)
         {

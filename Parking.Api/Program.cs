@@ -11,7 +11,11 @@ namespace ParkingApi
 
             // Add services to the container.
             builder.Services.AddScoped<IBankAccountService, BankAccountService>();
-            builder.Services.AddScoped<IParkingLotService, ParkingLotService>();
+            int totalSlots = 10;
+            int price = 5;
+            var serviceProvider = builder.Services.BuildServiceProvider();
+            ParkingLotService parkingLotService = new(totalSlots, price, serviceProvider.GetRequiredService<IBankAccountService>() );
+            builder.Services.AddScoped<IParkingLotService, ParkingLotService>(parkingLotService);
             builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

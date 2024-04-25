@@ -1,6 +1,8 @@
-@ParkingApi_HostAddress = http://localhost:5225
+### Park a car
+POST https://localhost:5001/api/ParkingLot/ABC123/in
 
-GET {{ParkingApi_HostAddress}}/weatherforecast/
-Accept: application/json
+### Pay for parking
+POST https://localhost:5001/api/ParkingLot/ABC123/payment
 
-###
+### Car leaving parking lot
+POST https://localhost:5001/api/ParkingLot/ABC123/out
