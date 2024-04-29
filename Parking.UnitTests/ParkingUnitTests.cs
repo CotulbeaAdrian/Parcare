@@ -1,11 +1,19 @@
 using Xunit;
 using Parking.Application.Models;   
 using Parking.Application.Services;
+using Parking.Application.Context;
 
 namespace Parking.UnitTest;
 
 public class ParkingUnitTests
 {
+    [Fact]
+    public void testingDB()
+    {
+        var connection = new Context();
+        Assert.True(true);
+    }
+
     [Fact]
     public void isParkingPossible_WhenSpaceAvailable_ReturnsTrue()
     {

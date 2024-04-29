@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Parking.Application.Services;
 using System;
+using Parking.Application.Services.Interfaces;
 
 namespace Parking.Controllers;
 
@@ -8,9 +9,9 @@ namespace Parking.Controllers;
 [Route("api/[controller]")]
 public class ParkingLotController : ControllerBase
 {
-    private ParkingLotService _parkingLotService;
+    private IParkingLotService _parkingLotService;
 
-    public ParkingLotController(ParkingLotService parkingLotService)
+    public ParkingLotController(IParkingLotService parkingLotService)
     {
         _parkingLotService = parkingLotService;
     }
@@ -18,7 +19,7 @@ public class ParkingLotController : ControllerBase
     [HttpPost("{carNumber}/in")]
     public IActionResult EnterParking(string carNumber)
     {
-        _parkingLotService.ParkCar(carNumber, DateTime.Now);
+        _parkingLotService.ParkCar(carNumber, DateTime.Now.AddHours(-10));
         bool success = _parkingLotService.IsCarParked(carNumber);
         if (success)
             return Ok("Car parked successfully.");

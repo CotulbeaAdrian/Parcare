@@ -13,9 +13,9 @@ public class ParkingLotService : IParkingLotService
     private List<ParkingLotModel> _parkedCarsList;
     private int _maxSlots;
     private float _price;
-    private BankAccountService _bank;
+    private IBankAccountService _bank;
 
-    public ParkingLotService(int totalSlots, float price, BankAccountService bankAccounts)
+    public ParkingLotService(int totalSlots, float price, IBankAccountService bankAccounts)
     {
         _parkedCarsList = new List<ParkingLotModel>();
         _maxSlots = totalSlots;
@@ -32,7 +32,7 @@ public class ParkingLotService : IParkingLotService
     {
         if (!IsParkingPossible())
         {
-            Console.WriteLine($"There are no empty slots at the time. Please come back later!");
+            Console.WriteLine($"There are no empty slots at the time.");
             return;
         }
 
@@ -88,7 +88,7 @@ public class ParkingLotService : IParkingLotService
 
         // -1 for the first hour which is free
         var paymentAmount = (duration.TotalHours) * _price;
-        var accountWithCarNumber = _bank.accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
+        var accountWithCarNumber = _bank.Accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
 
         if (accountWithCarNumber == null)
         {
@@ -100,9 +100,11 @@ public class ParkingLotService : IParkingLotService
         {
             accountWithCarNumber.Balance = (float)(accountWithCarNumber.Balance - paymentAmount);
             parkedCar.PaymentReceived = true;
+            parkedCar.TriedPayment = true;
             Console.WriteLine("Payment successful");
             return;
         }
+        Console.WriteLine("Payment unsuccessful");
         parkedCar.TriedPayment = true;
     }
 
