@@ -23,14 +23,14 @@ public class ParkingLotService : IParkingLotService
         _bank = bankAccounts;
     }
 
-    public bool IsParkingPossible(string carNumber)
+    public bool IsParkingPossible()
     {
         return (_maxSlots - _parkedCarsList.Count) > 0;
     }
 
     public void ParkCar(string carNumber, DateTime time)
     {
-        if (!IsParkingPossible(carNumber))
+        if (!IsParkingPossible())
         {
             Console.WriteLine($"There are no empty slots at the time.");
             return;
@@ -46,11 +46,6 @@ public class ParkingLotService : IParkingLotService
         });
 
         Console.WriteLine("Car is now parked.");
-    }
-
-    public int BusySpots()
-    {
-        return _parkedCarsList.Count;
     }
 
     public bool IsCarParked(string carNumber)

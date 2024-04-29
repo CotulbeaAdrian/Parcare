@@ -22,7 +22,7 @@ public class ParkingUnitTests
         var sut = new ParkingLotService(1, 2, accounts);
 
         //Act
-        var result = sut.IsParkingPossible("testNumber");
+        var result = sut.IsParkingPossible();
 
         //Asserts
         Assert.True(result);
@@ -36,7 +36,7 @@ public class ParkingUnitTests
         var sut = new ParkingLotService(0, 2, accounts);
 
         //Act
-        var result = sut.IsParkingPossible("testNumber");
+        var result = sut.IsParkingPossible();
 
         //Asserts
         Assert.False(result);
