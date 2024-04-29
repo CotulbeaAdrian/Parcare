@@ -10,10 +10,10 @@ namespace ParkingApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddScoped<IBankAccountService, BankAccountService>();
+            builder.Services.AddSingleton<IBankAccountService, BankAccountService>();
             int totalSlots = 3;
             int price = 5;
-            builder.Services.AddScoped<IParkingLotService>(serviceProvider =>
+            builder.Services.AddSingleton<IParkingLotService>(serviceProvider =>
             {
                 var bank = serviceProvider.GetRequiredService<IBankAccountService>();
                 return new ParkingLotService(totalSlots,price, bank);

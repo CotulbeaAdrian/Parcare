@@ -15,23 +15,6 @@ public class ParkingUnitTests
     }
 
     [Fact]
-    public void isCarAlreadyParked_WhenIsParked_ReturnsTrue()
-    {
-        //Arrange
-        var accounts = new BankAccountService();
-        var sut = new ParkingLotService(1, 2, accounts);
-
-        //Act
-        sut.ParkCar("testNumber", DateTime.Now);
-
-        sut.ParkCar("testNumber", DateTime.Now);
-        var result = sut.IsCarParked("testNumber");
-
-        //Asserts
-        Assert.True(sut.BusySpots() == 1);
-    }
-
-    [Fact]
     public void isParkingPossible_WhenSpaceAvailable_ReturnsTrue()
     {
         //Arrange

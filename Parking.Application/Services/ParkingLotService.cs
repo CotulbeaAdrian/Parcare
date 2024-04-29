@@ -25,14 +25,14 @@ public class ParkingLotService : IParkingLotService
 
     public bool IsParkingPossible(string carNumber)
     {
-        return (_maxSlots - _parkedCarsList.Count) > 0 && (IsCarParked(carNumber)== false);
+        return (_maxSlots - _parkedCarsList.Count) > 0;
     }
 
     public void ParkCar(string carNumber, DateTime time)
     {
         if (!IsParkingPossible(carNumber))
         {
-            Console.WriteLine($"There are no empty slots at the time or this car number is already in");
+            Console.WriteLine($"There are no empty slots at the time.");
             return;
         }
 
@@ -105,9 +105,11 @@ public class ParkingLotService : IParkingLotService
         {
             accountWithCarNumber.Balance = (float)(accountWithCarNumber.Balance - paymentAmount);
             parkedCar.PaymentReceived = true;
+            parkedCar.TriedPayment = true;
             Console.WriteLine("Payment successful");
             return;
         }
+        Console.WriteLine("Payment unsuccessful");
         parkedCar.TriedPayment = true;
     }
 

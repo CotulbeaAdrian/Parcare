@@ -23,7 +23,7 @@ public class ParkingLotController : ControllerBase
         bool success = _parkingLotService.IsCarParked(carNumber);
         if (success)
             return Ok("Car parked successfully.");
-        return BadRequest("Parking lot is full or this car number is already in.");
+        return BadRequest("Parking lot is full.");
     }
 
     [HttpPost("{carNumber}/payment")]

@@ -12,8 +12,8 @@ public class BankAccountService : IBankAccountService
 {
     public List<BankAccountModel> Accounts { get; } = new List<BankAccountModel>
     {
-       new BankAccountModel{Name = "Tom", CarNumber = new List<string> { "1234" },Balance = 10000 },
-       new BankAccountModel{Name = "TomNoMoney", CarNumber = new List<string> { "12345" },Balance = 0 },
+       new BankAccountModel{Name = "Tom", CarNumber = new List<string> { "12" },Balance = 10000 },
+       new BankAccountModel{Name = "TomNoMoney", CarNumber = new List<string> { "1234" },Balance = 0 },
        // add more for the integration test cases
     };
 
