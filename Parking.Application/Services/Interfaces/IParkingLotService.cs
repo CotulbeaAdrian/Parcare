@@ -16,4 +16,5 @@ public interface IParkingLotService
     void PayForParking(string carNumber);
     void ExitParking(string carNumber);
     bool CarLeftParking(string carNumber);
+    int BusySpots();
 }

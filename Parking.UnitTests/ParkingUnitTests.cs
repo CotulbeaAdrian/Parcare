@@ -1,11 +1,36 @@
 using Xunit;
 using Parking.Application.Models;   
 using Parking.Application.Services;
+using Parking.Application.Context;
 
 namespace Parking.UnitTest;
 
 public class ParkingUnitTests
 {
+    [Fact]
+    public void testingDB()
+    {
+        var connection = new Context();
+        Assert.True(true);
+    }
+
+    [Fact]
+    public void isCarAlreadyParked_WhenIsParked_ReturnsTrue()
+    {
+        //Arrange
+        var accounts = new BankAccountService();
+        var sut = new ParkingLotService(1, 2, accounts);
+
+        //Act
+        sut.ParkCar("testNumber", DateTime.Now);
+
+        sut.ParkCar("testNumber", DateTime.Now);
+        var result = sut.IsCarParked("testNumber");
+
+        //Asserts
+        Assert.True(sut.BusySpots() == 1);
+    }
+
     [Fact]
     public void isParkingPossible_WhenSpaceAvailable_ReturnsTrue()
     {

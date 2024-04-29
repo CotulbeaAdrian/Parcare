@@ -25,7 +25,7 @@ public class ParkingLotService : IParkingLotService
 
     public bool IsParkingPossible(string carNumber)
     {
-        return (_maxSlots - _parkedCarsList.Count) > 0 && !IsCarParked(carNumber);
+        return (_maxSlots - _parkedCarsList.Count) > 0 && (IsCarParked(carNumber)== false);
     }
 
     public void ParkCar(string carNumber, DateTime time)
@@ -46,6 +46,11 @@ public class ParkingLotService : IParkingLotService
         });
 
         Console.WriteLine("Car is now parked.");
+    }
+
+    public int BusySpots()
+    {
+        return _parkedCarsList.Count;
     }
 
     public bool IsCarParked(string carNumber)
