@@ -9,7 +9,7 @@ namespace Parking.Application.Services.Interfaces;
 
 public interface IParkingLotService
 {
-    bool IsParkingPossible();
+    bool IsParkingPossible(string carNumber);
     void ParkCar(string carNumber, DateTime time);
     bool IsCarParked(string carNumber);
     bool IsPaymentReceived(string carNumber);

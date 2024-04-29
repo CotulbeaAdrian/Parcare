@@ -10,7 +10,12 @@ namespace Parking.Application.Services;
 
 public class BankAccountService : IBankAccountService
 {
-    public List<BankAccountModel> Accounts { get; } = new List<BankAccountModel>();
+    public List<BankAccountModel> Accounts { get; } = new List<BankAccountModel>
+    {
+       new BankAccountModel{Name = "Tom", CarNumber = new List<string> { "1234" },Balance = 10000 },
+       new BankAccountModel{Name = "TomNoMoney", CarNumber = new List<string> { "12345" },Balance = 0 },
+       // add more for the integration test cases
+    };
 
     public void Add(string name, List<string> carNumber, float balance)
     {

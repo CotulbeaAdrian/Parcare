@@ -3,7 +3,7 @@ using Parking.Application.Services;
 
 namespace ParkingApi
 {
-    public class Program
+    public partial class Program
     {
         public static void Main(string[] args)
         {
@@ -11,11 +11,13 @@ namespace ParkingApi
 
             // Add services to the container.
             builder.Services.AddScoped<IBankAccountService, BankAccountService>();
-            int totalSlots = 10;
+            int totalSlots = 3;
             int price = 5;
-            var serviceProvider = builder.Services.BuildServiceProvider();
-            ParkingLotService parkingLotService = new(totalSlots, price, serviceProvider.GetRequiredService<IBankAccountService>() );
-            builder.Services.AddScoped<IParkingLotService, ParkingLotService>(parkingLotService);
+            builder.Services.AddScoped<IParkingLotService>(serviceProvider =>
+            {
+                var bank = serviceProvider.GetRequiredService<IBankAccountService>();
+                return new ParkingLotService(totalSlots,price, bank);
+            });
             builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
