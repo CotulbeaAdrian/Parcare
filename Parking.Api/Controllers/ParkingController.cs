@@ -22,7 +22,6 @@ public class ParkingLotController : ControllerBase
     [HttpPost("{carNumber}/in")]
     public IActionResult EnterParking(string carNumber)
     {
-        _bankAccountRepository.GetByCarNumber(carNumber);
         //Act
         _parkingLotService.ParkCar(carNumber, DateTime.Now.AddHours(-10));
         //

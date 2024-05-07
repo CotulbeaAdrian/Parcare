@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Parking.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Parking.Application.Repository.Interfaces
     public interface IParkingRepository
     {
         SqlConnection conn { get; set; }
+        ParkingLotModel GetByCarNumber(string carNumber);
 
         void ParkCar(string carNumber, DateTime time);
 
@@ -19,9 +21,13 @@ namespace Parking.Application.Repository.Interfaces
 
         bool isPaymentReceived(string carNumber);
 
-        void PayParking(string carNumber);
+        bool isPaymentTried(string carNumber);
 
-        void ExitParking(string carNumber);
+        void TriedPayment(string carNumber);
+
+        void PaidForParking(string carNumber);
+
+        void ExitParking(string carNumber, DateTime time);
 
         bool CarLeftParking(string carNumber);
     }

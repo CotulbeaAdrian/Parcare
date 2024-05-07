@@ -11,9 +11,6 @@ namespace Parking.Application.Repository.Interfaces
     public interface IBankAccountRepository
     {
         SqlConnection conn { get; set; }
-        ParkingLotModel GetByCarNumber(string carNumber);
-
-        IEnumerable<BankAccountModel> GetAll();
 
         void Add(BankAccountModel model);
 

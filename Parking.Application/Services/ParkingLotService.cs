@@ -7,27 +7,28 @@ using System.Threading.Tasks;
 using Parking.Application.Services.Interfaces;
 using Parking.Application.Configuration;
 using Microsoft.Extensions.Options;
+using Parking.Application.Repository.Interfaces;
 
 namespace Parking.Application.Services;
 
 public class ParkingLotService : IParkingLotService
 {
-    private List<ParkingLotModel> _parkedCarsList;
     private int _maxSlots;
     private float _price;
     private IBankAccountService _bank;
+    private IParkingRepository _parkingRepository;
 
-    public ParkingLotService(IBankAccountService bankAccounts, IOptions<ApplicationKeys> applicationKeys)
+    public ParkingLotService(IBankAccountService bankAccounts, IOptions<ApplicationKeys> applicationKeys, IParkingRepository parkingRepository)
     {
-        _parkedCarsList = new List<ParkingLotModel>();
         _maxSlots = applicationKeys.Value.TotalSlots;
         _price = applicationKeys.Value.Price;
         _bank = bankAccounts;
+        _parkingRepository = parkingRepository;
     }
 
     public bool IsParkingPossible()
     {
-        return (_maxSlots - _parkedCarsList.Count) > 0;
+        return (_maxSlots - _parkingRepository.ParkedCarsNumber()) > 0; 
     }
 
     public void ParkCar(string carNumber, DateTime time)
@@ -38,40 +39,23 @@ public class ParkingLotService : IParkingLotService
             return;
         }
 
-        _parkedCarsList.Add(new ParkingLotModel
-        {
-            CarNumber = carNumber,
-            EntryTime = time,
-            PaymentReceived = false,
-            TriedPayment = false,
-            LeftParking = false
-        });
-
+        _parkingRepository.ParkCar(carNumber, time);
         Console.WriteLine("Car is now parked.");
     }
 
     public bool IsCarParked(string carNumber)
     {
-        ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
-        return parkedCar != null;
+        return _parkingRepository.isCarParked(carNumber);
     }
 
     public bool IsPaymentReceived(string carNumber)
     {
-        ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
-
-        if (parkedCar != null)
-            return parkedCar.PaymentReceived;
-        else
-        {
-            Console.WriteLine("There is no car with that number here.");
-            return false;
-        }
+        return _parkingRepository.isPaymentReceived(carNumber);
     }
 
     public void PayForParking(string carNumber)
     {
-        ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
+        ParkingLotModel parkedCar = _parkingRepository.GetByCarNumber(carNumber);
 
         if(parkedCar == null)
         {
@@ -84,12 +68,12 @@ public class ParkingLotService : IParkingLotService
         if (duration.TotalHours <= 1)
         {
             Console.WriteLine("Parking for an hour or less is free. Have a nice day!");
-            parkedCar.PaymentReceived = true;
+            _parkingRepository.PaidForParking(carNumber);
             return;
         }
 
         // -1 for the first hour which is free
-        var paymentAmount = (duration.TotalHours) * _price;
+        var paymentAmount = (duration.TotalHours - 1) * _price;
         var accountWithCarNumber = _bank.Accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
 
         if (accountWithCarNumber == null)
@@ -101,18 +85,17 @@ public class ParkingLotService : IParkingLotService
         if(_bank.IsPaymentPossible(paymentAmount, carNumber))
         {
             accountWithCarNumber.Balance = (float)(accountWithCarNumber.Balance - paymentAmount);
-            parkedCar.PaymentReceived = true;
-            parkedCar.TriedPayment = true;
+            _parkingRepository.PaidForParking(carNumber);
             Console.WriteLine("Payment successful");
             return;
         }
         Console.WriteLine("Payment unsuccessful");
-        parkedCar.TriedPayment = true;
+        _parkingRepository.TriedPayment(carNumber);
     }
 
     public void ExitParking(string carNumber)
     {
-        ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
+        ParkingLotModel parkedCar = _parkingRepository.GetByCarNumber(carNumber);
 
         if (parkedCar == null)
         {
@@ -120,32 +103,23 @@ public class ParkingLotService : IParkingLotService
             return;
         }
 
-        if(parkedCar.TriedPayment == false)
+        if(!_parkingRepository.isPaymentTried(carNumber))
         {
             PayForParking(carNumber);
         }
 
-        if(parkedCar.PaymentReceived == false)
+        if(!_parkingRepository.isPaymentReceived(carNumber))
         {
             Console.WriteLine("Payment is required first before exiting the parking lot.");
             return;
         }
 
         Console.WriteLine("Have a nice day!");
-        parkedCar.LeftParking = true;
-        _maxSlots++;
+        _parkingRepository.ExitParking(carNumber, DateTime.Now);
     }
 
     public bool CarLeftParking(string carNumber)
     {
-        ParkingLotModel? parkedCar = _parkedCarsList.Find(car => car.CarNumber == carNumber);
-
-        if (parkedCar != null)
-            return parkedCar.LeftParking;
-        else
-        {
-            Console.WriteLine("There is no car with that number here.");
-            return false;
-        }
+        return _parkingRepository.CarLeftParking(carNumber);
     }
 }

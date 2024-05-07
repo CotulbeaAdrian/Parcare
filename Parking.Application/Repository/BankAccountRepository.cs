@@ -18,29 +18,6 @@ namespace Parking.Application.Repository
         public BankAccountRepository(IContext context)
         {
             conn = context.Conn;
-            GetByCarNumber("car2");
-        }
-        public ParkingLotModel GetByCarNumber(string carNumber)
-        {
-            var queryString = $"select * from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}'";
-            var result = new SqlCommand(queryString, conn);
-            using (var reader = result.ExecuteReader()) {
-                while (reader.Read())
-                {
-                    var name = reader.GetString(1);
-                    Console.WriteLine(name);
-                }
-            }
-
-            return new ParkingLotModel { CarNumber = carNumber , EntryTime = DateTime.Now, LeftParking = false, PaymentReceived = false, TriedPayment = false};
-            
-            
-        }
-
-        public IEnumerable<BankAccountModel> GetAll()
-        {
-            // TO BE IMPLEMENTED
-            return null;
         }
 
         public void Add(BankAccountModel model)
