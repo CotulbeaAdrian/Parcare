@@ -1,4 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols;
+using Parking.Application.Context.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +10,25 @@ using System.Threading.Tasks;
 
 namespace Parking.Application.Context
 {
-    public class Context
+    public class Context : IContext
     {
-        private SqlConnection _conn;
-        private string _connectionString = "Server=DESKTOP-PN8PAKH;Database=test;User ID=sa;Password=passwd;Trusted_Connection=True;Trust Server Certificate=true;";
+        public SqlConnection Conn { get; set; }
+        string IContext.ConnectionString { get; set; }
 
-        public Context()
+        public Context(string connectionString)
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "localhost";
-            builder.UserID = "sa";
-            builder.Password = "passwd";
-            builder.InitialCatalog = "test";
-            _conn = new SqlConnection(_connectionString);
-            _conn.Open();
+            ConnectToDB(connectionString);
+        }
+
+        private void ConnectToDB(string connectionString)
+        {
+            Conn = new SqlConnection(connectionString);
+            Conn.Open();
             Console.WriteLine("Connection established!");
-            _conn.Close();
+        }
+
+        public void CloseConnection() { Conn.Close();
+            Console.WriteLine("Connection closed!");
         }
     }
 }

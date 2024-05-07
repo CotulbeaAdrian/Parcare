@@ -2,6 +2,7 @@
 using Parking.Application.Services;
 using System;
 using Parking.Application.Services.Interfaces;
+using Parking.Application.Repository.Interfaces;
 
 namespace Parking.Controllers;
 
@@ -10,16 +11,21 @@ namespace Parking.Controllers;
 public class ParkingLotController : ControllerBase
 {
     private IParkingLotService _parkingLotService;
+    private readonly IBankAccountRepository _bankAccountRepository;
 
-    public ParkingLotController(IParkingLotService parkingLotService)
+    public ParkingLotController(IParkingLotService parkingLotService, IBankAccountRepository bank)
     {
+        _bankAccountRepository = bank;
         _parkingLotService = parkingLotService;
     }
 
     [HttpPost("{carNumber}/in")]
     public IActionResult EnterParking(string carNumber)
     {
+        _bankAccountRepository.GetByCarNumber(carNumber);
+        //Act
         _parkingLotService.ParkCar(carNumber, DateTime.Now.AddHours(-10));
+        //
         bool success = _parkingLotService.IsCarParked(carNumber);
         if (success)
             return Ok("Car parked successfully.");

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Parking.Application.Services.Interfaces;
+using Parking.Application.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Parking.Application.Services;
 
@@ -15,11 +17,11 @@ public class ParkingLotService : IParkingLotService
     private float _price;
     private IBankAccountService _bank;
 
-    public ParkingLotService(int totalSlots, float price, IBankAccountService bankAccounts)
+    public ParkingLotService(IBankAccountService bankAccounts, IOptions<ApplicationKeys> applicationKeys)
     {
         _parkedCarsList = new List<ParkingLotModel>();
-        _maxSlots = totalSlots;
-        _price = price;
+        _maxSlots = applicationKeys.Value.TotalSlots;
+        _price = applicationKeys.Value.Price;
         _bank = bankAccounts;
     }
 

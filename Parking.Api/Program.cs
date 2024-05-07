@@ -1,5 +1,10 @@
 using Parking.Application.Services.Interfaces;
 using Parking.Application.Services;
+using Parking.Application.Context;
+using Parking.Application.Context.Interfaces;
+using Parking.Application.Repository.Interfaces;
+using Parking.Application.Repository;
+using Parking.Application.Configuration;
 
 namespace ParkingApi
 {
@@ -9,16 +14,20 @@ namespace ParkingApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddSingleton<IBankAccountService, BankAccountService>();
-            int totalSlots = 3;
-            int price = 5;
-            builder.Services.AddSingleton<IParkingLotService>(serviceProvider =>
+            // Add services to the container.;
+            builder.Services.AddScoped<IContext> (serviceProvider =>
             {
-                var bank = serviceProvider.GetRequiredService<IBankAccountService>();
-                return new ParkingLotService(totalSlots,price, bank);
+                var connectionString = builder.Configuration.GetConnectionString("SQLAuth");
+                return new Context(connectionString);
             });
+            builder.Services.AppConfigSettingsServices(builder.Configuration);
+            builder.Services.AddScoped<IBankAccountRepository, BankAccountRepository>();
+            builder.Services.AddScoped<IParkingRepository, ParkingRepository>();
+            builder.Services.AddScoped<IBankAccountService, BankAccountService>();
+            builder.Services.AddScoped<IParkingLotService, ParkingLotService>();
             builder.Services.AddControllers();
+
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
