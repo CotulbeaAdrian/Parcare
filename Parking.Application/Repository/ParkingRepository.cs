@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Parking.Application.Context;
 using Parking.Application.Context.Interfaces;
 using Parking.Application.Repository.Interfaces;
 
@@ -7,10 +9,12 @@ namespace Parking.Application.Repository
     public class ParkingRepository : IParkingRepository
     {
         private SqlConnection _conn;
-
-        public ParkingRepository(IContext context)
+        private readonly AppDBContext _dbContext;
+        public ParkingRepository(IContext context, AppDBContext dbContext)
         {
             _conn = context.Conn;
+            _dbContext = dbContext;
+            var userList = _dbContext.Users.ToList();
         }
         public DateTime getEntryTime(string carNumber)
         {

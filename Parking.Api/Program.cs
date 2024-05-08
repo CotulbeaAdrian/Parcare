@@ -5,6 +5,8 @@ using Parking.Application.Context.Interfaces;
 using Parking.Application.Repository.Interfaces;
 using Parking.Application.Repository;
 using Parking.Application.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace ParkingApi
 {
@@ -20,6 +22,8 @@ namespace ParkingApi
                 var connectionString = builder.Configuration.GetConnectionString("SQLAuth");
                 return new Context(connectionString);
             });
+            builder.Services.AddDbContext<AppDBContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SQLAuth")));
             builder.Services.AppConfigSettingsServices(builder.Configuration);
             builder.Services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             builder.Services.AddScoped<IParkingRepository, ParkingRepository>();

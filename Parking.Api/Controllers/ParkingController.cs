@@ -11,11 +11,9 @@ namespace Parking.Controllers;
 public class ParkingLotController : ControllerBase
 {
     private IParkingLotService _parkingLotService;
-    private readonly IBankAccountRepository _bankAccountRepository;
 
-    public ParkingLotController(IParkingLotService parkingLotService, IBankAccountRepository bank)
+    public ParkingLotController(IParkingLotService parkingLotService)
     {
-        _bankAccountRepository = bank;
         _parkingLotService = parkingLotService;
     }
 
