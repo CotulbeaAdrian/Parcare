@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace Parking.Application.Services.Interfaces;
 public interface IBankAccountService
 {
-    List<BankAccountModel> Accounts { get; }
     void Add(string name, List<string> carNumber, float balance);
     void Remove(string carNumber);
     bool IsPaymentPossible(double amount, string carNumber);
+    void Pay(double amount, string carNumber);
 }

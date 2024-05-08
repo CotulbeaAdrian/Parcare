@@ -15,7 +15,7 @@ public class ParkingIntegrationTests
     public async Task EnterParking_WhenParkingAvailable_ReturnsOk()
     {
         // Arrange
-        var carNumber = "12";
+        var carNumber = "123";
         HttpClient client = new()
         {
             BaseAddress = new Uri("https://localhost:7032"),
@@ -38,10 +38,7 @@ public class ParkingIntegrationTests
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://localhost:7032");
 
-        for (int i = 1;i<=3;i++)
-            await client.PostAsync($"/api/parkinglot/{i}/in", null);
-
-        var carNumber = "123";
+        var carNumber = "notassigned";
 
         // Act
         var response = await client.PostAsync($"/api/parkinglot/{carNumber}/in", null);
@@ -52,10 +49,10 @@ public class ParkingIntegrationTests
     }
 
     [Fact]
-    public async Task PayForParking_WhenPaymentPossible_ReturnsOk()
+    public async Task PayForParking_WhenPaymentSuccessful_ReturnsOk()
     {
         // Arrange
-        var carNumber = "12";
+        var carNumber = "123";
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://localhost:7032");
         await client.PostAsync($"/api/Parkinglot/{carNumber}/in", null);
@@ -66,13 +63,14 @@ public class ParkingIntegrationTests
         // Assert
         response.EnsureSuccessStatusCode();
         Assert.Equal("Payment successful.", await response.Content.ReadAsStringAsync());
+        await client.PostAsync($"/api/Parkinglot/{carNumber}/out", null);
     }
 
     [Fact]
-    public async Task PayForParking_WhenPaymentNotPossible_ReturnsBadRequest()
+    public async Task PayForParking_WhenPaymentUnsuccessful_ReturnsBadRequest()
     {
         // Arrange
-        var carNumber = "1234";
+        var carNumber = "car2";
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://localhost:7032");
         await client.PostAsync($"/api/Parkinglot/{carNumber}/in", null);
@@ -86,10 +84,10 @@ public class ParkingIntegrationTests
     }
 
     [Fact]
-    public async Task LeaveParking_WhenLeavingPossible_ReturnsOk()
+    public async Task LeaveParking_WhenLeavingSuccessful_ReturnsOk()
     {
         // Arrange
-        var carNumber = "12";
+        var carNumber = "123";
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://localhost:7032");
         await client.PostAsync($"/api/Parkinglot/{carNumber}/in", null);
@@ -104,10 +102,10 @@ public class ParkingIntegrationTests
     }
 
     [Fact]
-    public async Task LeaveParking_WhenLeavingNotPossible_BadRequest()
+    public async Task LeaveParking_WhenLeavingUnsuccessful_BadRequest()
     {
         // Arrange
-        var carNumber = "1234";
+        var carNumber = "car2";
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://localhost:7032");
         await client.PostAsync($"/api/Parkinglot/{carNumber}/in", null);

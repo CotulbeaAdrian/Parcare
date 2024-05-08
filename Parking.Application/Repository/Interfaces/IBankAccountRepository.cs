@@ -10,12 +10,12 @@ namespace Parking.Application.Repository.Interfaces
 {
     public interface IBankAccountRepository
     {
-        SqlConnection conn { get; set; }
+        void Add(string Name, float balance);
 
-        void Add(BankAccountModel model);
+        void Remove(string carNumber);
 
-        void Remove(BankAccountModel model);
+        double getBalance(string carNumber);
 
-        bool IsPaymentPossible(double amount, string carNumber);
+        void Pay(double amount, string carNumber);
     }
 }

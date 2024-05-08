@@ -23,7 +23,7 @@ public class ParkingLotController : ControllerBase
     public IActionResult EnterParking(string carNumber)
     {
         //Act
-        _parkingLotService.ParkCar(carNumber, DateTime.Now.AddHours(-10));
+        _parkingLotService.ParkCar(carNumber, DateTime.Now);
         //
         bool success = _parkingLotService.IsCarParked(carNumber);
         if (success)

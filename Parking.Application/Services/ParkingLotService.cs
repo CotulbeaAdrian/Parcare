@@ -38,7 +38,6 @@ public class ParkingLotService : IParkingLotService
             Console.WriteLine($"There are no empty slots at the time.");
             return;
         }
-
         _parkingRepository.ParkCar(carNumber, time);
         Console.WriteLine("Car is now parked.");
     }
@@ -55,17 +54,9 @@ public class ParkingLotService : IParkingLotService
 
     public void PayForParking(string carNumber)
     {
-        ParkingLotModel parkedCar = _parkingRepository.GetByCarNumber(carNumber);
+        var duration = DateTime.Now - _parkingRepository.getEntryTime(carNumber);
 
-        if(parkedCar == null)
-        {
-            Console.WriteLine("No car found with that number.");
-            return;
-        }
-    
-        var duration = DateTime.Now - parkedCar.EntryTime;
-
-        if (duration.TotalHours <= 1)
+        if (duration.TotalMinutes <= 60)
         {
             Console.WriteLine("Parking for an hour or less is free. Have a nice day!");
             _parkingRepository.PaidForParking(carNumber);
@@ -73,18 +64,11 @@ public class ParkingLotService : IParkingLotService
         }
 
         // -1 for the first hour which is free
-        var paymentAmount = (duration.TotalHours - 1) * _price;
-        var accountWithCarNumber = _bank.Accounts.FirstOrDefault(account => account.CarNumber.Contains(carNumber));
-
-        if (accountWithCarNumber == null)
-        {
-            Console.WriteLine($"No account found with car number {carNumber}");
-            return;
-        }
+        var paymentAmount = duration.TotalHours * _price;
 
         if(_bank.IsPaymentPossible(paymentAmount, carNumber))
         {
-            accountWithCarNumber.Balance = (float)(accountWithCarNumber.Balance - paymentAmount);
+            _bank.Pay(paymentAmount, carNumber);
             _parkingRepository.PaidForParking(carNumber);
             Console.WriteLine("Payment successful");
             return;
@@ -95,14 +79,6 @@ public class ParkingLotService : IParkingLotService
 
     public void ExitParking(string carNumber)
     {
-        ParkingLotModel parkedCar = _parkingRepository.GetByCarNumber(carNumber);
-
-        if (parkedCar == null)
-        {
-            Console.WriteLine("No car found with that number.");
-            return;
-        }
-
         if(!_parkingRepository.isPaymentTried(carNumber))
         {
             PayForParking(carNumber);

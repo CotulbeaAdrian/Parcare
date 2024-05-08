@@ -10,12 +10,13 @@ namespace Parking.Application.Repository.Interfaces
 {
     public interface IParkingRepository
     {
-        SqlConnection conn { get; set; }
-        ParkingLotModel GetByCarNumber(string carNumber);
+        DateTime getEntryTime(string carNumber);
 
         void ParkCar(string carNumber, DateTime time);
 
         bool isCarParked(string carNumber);
+
+        int getCarID(string carNumber);
 
         int ParkedCarsNumber();
 

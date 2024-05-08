@@ -1,55 +1,59 @@
 ﻿using Microsoft.Data.SqlClient;
 using Parking.Application.Context.Interfaces;
-using Parking.Application.Models;
 using Parking.Application.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Parking.Application.Repository
 {
     public class ParkingRepository : IParkingRepository
     {
-        public SqlConnection conn { get; set; }
+        private SqlConnection _conn;
 
         public ParkingRepository(IContext context)
         {
-            conn = context.Conn;
+            _conn = context.Conn;
         }
-        public ParkingLotModel GetByCarNumber(string carNumber)
+        public DateTime getEntryTime(string carNumber)
         {
-            var queryString = $"select * from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}'";
-            var result = new SqlCommand(queryString, conn);
-            using (var reader = result.ExecuteReader())
+            var queryString = $"select pl.EntryTime from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
+            var result = new SqlCommand(queryString, _conn);
+            var scalar = result.ExecuteScalar();
+            return (DateTime)scalar;
+        }
+
+        public int getCarID(string carNumber) 
+        {
+            var queryString = $"select carID from UsersCar where carNumber = '{carNumber}'";
+            var result = new SqlCommand(queryString, _conn);
+            var scalar = result.ExecuteScalar();
+            if(scalar != null)
             {
-                if (reader.Read())
-                {
-                    return new ParkingLotModel { CarNumber = reader.GetString(1), EntryTime = reader.GetDateTime(5), LeftParking = (reader.GetByte(8) == 1), PaymentReceived = (reader.GetByte(6) == 1), TriedPayment = (reader.GetByte(7) == 1) };
-                }
-                return null;
+                return (int)scalar;
             }
+            return 0;
         }
 
         public void ParkCar(string carNumber, DateTime time)
         {
-            var queryString = $"insert into ParkingLog (carID, EntryTime) Values ({carNumber}, {time}";
-            var result = new SqlCommand(queryString, conn);
-            using (var reader = result.ExecuteReader())
+            var carID = getCarID(carNumber);
+            if (carID == 0)
+                return;
+            var queryString = $"insert into ParkingLog (carID, EntryTime, PaymentReceived, TriedPayment, LeftParking) Values ('{carID}', '{time}',0,0,0)";
+            var insert = new SqlCommand(queryString, _conn);
+            int rowsAffected = insert.ExecuteNonQuery();
+            if (rowsAffected > 0)
             {
-                while (reader.Read())
-                {
-                    var name = reader.GetString(1);
-                    Console.WriteLine(name);
-                }
+                Console.WriteLine("Record inserted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No records were inserted.");
             }
         }
 
         public bool isCarParked(string carNumber)
         {
             var queryString = $"select * from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
-            var result = new SqlCommand(queryString, conn);
+            var result = new SqlCommand(queryString, _conn);
             using (var reader = result.ExecuteReader())
             {
                 if (reader.Read())
@@ -63,7 +67,7 @@ namespace Parking.Application.Repository
         public int ParkedCarsNumber()
         {
             var queryString = "select count(carID) from ParkingLog where ExitTime is NULL";
-            var result = new SqlCommand(queryString, conn);
+            var result = new SqlCommand(queryString, _conn);
             using (var reader = result.ExecuteReader())
             {
                 if (reader.Read())
@@ -77,7 +81,7 @@ namespace Parking.Application.Repository
         public bool isPaymentReceived(string carNumber)
         {
             var queryString = $"select pl.PaymentReceived from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
-            var result = new SqlCommand(queryString, conn);
+            var result = new SqlCommand(queryString, _conn);
             using (var reader = result.ExecuteReader())
             {
                 if (reader.Read())
@@ -91,7 +95,7 @@ namespace Parking.Application.Repository
         public bool isPaymentTried(string carNumber)
         {
             var queryString = $"select pl.TriedPayment from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
-            var result = new SqlCommand(queryString, conn);
+            var result = new SqlCommand(queryString, _conn);
             using (var reader = result.ExecuteReader())
             {
                 if (reader.Read())
@@ -105,7 +109,7 @@ namespace Parking.Application.Repository
         public void PaidForParking(string carNumber)
         {
             var queryString = $"update ParkingLog set PaymentReceived = 1, TriedPayment = 1 from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
-            var update = new SqlCommand(queryString, conn);
+            var update = new SqlCommand(queryString, _conn);
             
             int rowsAffected = update.ExecuteNonQuery();
             if (rowsAffected > 0)
@@ -121,7 +125,7 @@ namespace Parking.Application.Repository
         public void TriedPayment(string carNumber)
         {
             var queryString = $"update ParkingLog set TriedPayment = 1 from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
-            var update = new SqlCommand(queryString, conn);
+            var update = new SqlCommand(queryString, _conn);
 
             int rowsAffected = update.ExecuteNonQuery();
             if (rowsAffected > 0)
@@ -136,8 +140,8 @@ namespace Parking.Application.Repository
 
         public void ExitParking(string carNumber, DateTime time)
         {
-            var queryString = $"update ParkingLog set PaymentReceived = 1, ExitTime = {time} from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
-            var update = new SqlCommand(queryString, conn);
+            var queryString = $"update ParkingLog set LeftParking = 1, ExitTime = '{time}' from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
+            var update = new SqlCommand(queryString, _conn);
 
             int rowsAffected = update.ExecuteNonQuery();
             if (rowsAffected > 0)
@@ -153,7 +157,7 @@ namespace Parking.Application.Repository
         public bool CarLeftParking(string carNumber)
         {
             var queryString = $"select * from UsersCar as uc join ParkingLog as pl on uc.carID = pl.carID where uc.carNumber = '{carNumber}' and pl.ExitTime is null";
-            var result = new SqlCommand(queryString, conn);
+            var result = new SqlCommand(queryString, _conn);
             using (var reader = result.ExecuteReader())
             {
                 if (reader.Read())

@@ -13,21 +13,23 @@ namespace Parking.Application.Context
     public class Context : IContext
     {
         public SqlConnection Conn { get; set; }
-        string IContext.ConnectionString { get; set; }
+        private string _connectionString { get; set; }
 
         public Context(string connectionString)
         {
-            ConnectToDB(connectionString);
+            _connectionString = connectionString;
+            ConnectToDB();
         }
 
-        private void ConnectToDB(string connectionString)
+        public void ConnectToDB()
         {
-            Conn = new SqlConnection(connectionString);
+            Conn = new SqlConnection(_connectionString);
             Conn.Open();
             Console.WriteLine("Connection established!");
         }
 
-        public void CloseConnection() { Conn.Close();
+        public void CloseConnection() { 
+            Conn.Close();
             Console.WriteLine("Connection closed!");
         }
     }

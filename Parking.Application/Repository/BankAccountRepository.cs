@@ -1,39 +1,71 @@
 ﻿using Microsoft.Data.SqlClient;
 using Parking.Application.Context.Interfaces;
-using Parking.Application.Models;
 using Parking.Application.Repository.Interfaces;
-using Parking.Application.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Parking.Application.Repository
 {
     public class BankAccountRepository : IBankAccountRepository
     {
-        public SqlConnection conn { get; set; }
+        private SqlConnection _conn;
 
         public BankAccountRepository(IContext context)
         {
-            conn = context.Conn;
+            _conn = context.Conn;
         }
 
-        public void Add(BankAccountModel model)
+        public void Add(string name,float balance)
         {
-            // TO BE IMPLEMENTED
+            var queryString = $"insert into UsersAccount (Name, Balance) Values ('{name}', '{balance}'";
+            var insert = new SqlCommand(queryString, _conn);
+            int rowsAffected = insert.ExecuteNonQuery();
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine("Record inserted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No records were inserted.");
+            }
         }
 
-        public void Remove(BankAccountModel model)
+        public void Remove(string carNumber)
         {
-            // TO BE IMPLEMENTED
+            var queryString = $"DELETE ua FROM UsersAccount ua JOIN UsersCar uc ON ua.userID = uc.userID WHERE uc.carNumber = '{carNumber}'";
+            var delete = new SqlCommand(queryString, _conn);
+
+            int rowsAffected = delete.ExecuteNonQuery();
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine("Record updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No records were updated.");
+            }
         }
 
-        public bool IsPaymentPossible(double amount, string carNumber)
+        public double getBalance(string carNumber)
         {
-            // TO BE IMPLEMENTED
-            return true;
+            var queryString = $"SELECT ua.Balance FROM UsersCar uc INNER JOIN UsersAccount ua ON uc.userID = ua.userID WHERE uc.carNumber = '{carNumber}'";
+            var result = new SqlCommand(queryString, _conn);
+            var scalar = result.ExecuteScalar();
+            return Convert.ToDouble(scalar);
+        }
+
+        public void Pay(double amount, string carNumber)
+        {
+            var queryString = $"UPDATE UsersAccount SET Balance = Balance - '{amount}' WHERE userID = (SELECT userID FROM UsersCar WHERE carNumber = '{carNumber}')";
+            var update = new SqlCommand(queryString, _conn);
+
+            int rowsAffected = update.ExecuteNonQuery();
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine("Record updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No records were updated.");
+            }
         }
     }
 }

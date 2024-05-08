@@ -11,7 +11,7 @@ namespace Parking.Application.Context.Interfaces
     {
         SqlConnection Conn { get; set; }
 
-        string ConnectionString { get; set; }
+        void ConnectToDB();
 
         void CloseConnection();
     }
